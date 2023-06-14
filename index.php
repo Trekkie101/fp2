@@ -3,7 +3,7 @@
 $starttime = microtime(true); // Top of page
 
 
-require_once 'Feed.php';
+require_once 'ext/Feed.php';
 
 $rss = Feed::loadRss('http://www.simplemachines.org/community/index.php?action=.xml;sa=news;limit=5;type=rss2');
 	
