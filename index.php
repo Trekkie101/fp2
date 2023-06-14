@@ -1,6 +1,6 @@
 <?php
 
-$starttime = microtime(true); // Top of page
+$starttime = microtime(true); 
 
 
 require_once 'ext/Feed.php';
@@ -29,7 +29,7 @@ print $c;
 
 	echo '<br /><br /><br /><br />';
 
-$endtime = microtime(true); // Bottom of page
+$endtime = microtime(true);
 
 printf("Load time: %f seconds", $endtime - $starttime );
 
