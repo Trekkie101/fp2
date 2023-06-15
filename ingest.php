@@ -23,7 +23,7 @@ if (!$conn) {
 
 
 // Set the URL to load
-$rss = Feed::loadRss('http://www.elkarte.net/community/index.php?action=.xml;sa=news;limit=25;type=rss2');
+$rss = Feed::loadRss('https://viveecosse.com/feed/');
 
 // We might have foreign entities, so force a character set.
 mysqli_set_charset($conn, "utf8mb4");
