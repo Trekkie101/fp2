@@ -1,1 +1,3 @@
 .nova
+config.php
+.DS_STORE
