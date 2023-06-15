@@ -5,6 +5,12 @@ $starttime = microtime(true);
 
 
 require_once 'config.php';
+require_once 'functions.php';
+
+pubheader();
+
+
+echo'<section class="section"><div class="container">';
 
 
 // Create connection
@@ -20,14 +26,21 @@ mysqli_set_charset($conn, "utf8mb4");
 
 
 
-$sql = "SELECT * FROM feeds ORDER BY submit DESC";
+$sql = "SELECT * FROM feeds ORDER BY submit DESC LIMIT 5";
 
 $result = mysqli_execute_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
   // output data of each row
   while($row = mysqli_fetch_assoc($result)) {
-	echo  '<a href='.$row["url"].'>' . $row["title"]. "</a> by " . $row["author"]. "<br />";
+	  
+	  
+ 
+	echo '<article class="message ';
+	echo colourarray();
+	echo'"><div class="message-body">';
+	echo '<strong><a href='.$row["url"].'>' . $row["title"]. "</a></strong>  ~<em>" . $row["author"]. "</em><br />";
+	echo '</div></article>';
   }
 } else {
   echo "0 results";
@@ -43,9 +56,12 @@ mysqli_close($conn);
 // and now we can stop recording time.
 $endtime = microtime(true);
 
+echo'<div class="tags has-addons"><span class="tag is-dark">Generated in</span><span class="tag is-info">';
 // Spit out how long it took
-printf("Load time: %f seconds", $endtime - $starttime );
+printf(" %f seconds", $endtime - $starttime );
+echo'</span></div>';
+echo'</div></section>';
 
-
+pubfooter();
 
 ?>
