@@ -10,7 +10,6 @@ require_once 'functions.php'; // Useful functions
 pubheader(); // Load the header
 
 
-echo'<section class="section"><div class="container">';
 
 
 // Create connection
@@ -60,7 +59,7 @@ switch ($sort) {
 		$sql = "SELECT * FROM feeds ORDER BY votes DESC LIMIT 500"; // Default
 		break;
 	case 9:
-		$sql = "SELECT * FROM feeds WHERE submit BETWEEN CURRENT_DATE-1 AND CURRENT_DATE+1 ORDER BY votes DESC LIMIT 500"; // Default
+		$sql = "SELECT * FROM feeds WHERE submit BETWEEN CURRENT_DATE-1 AND CURRENT_DATE+1 ORDER BY submit DESC LIMIT 500"; // Default
 		break;
 }
 
@@ -79,13 +78,13 @@ if (mysqli_num_rows($result) > 0) {
 	
 	// This builds the votes and authoriship box
 	echo'<div class="tags has-addons">
-			<span class="tag is-success"><a href="vote.php?vote=2&id='.$row["id"].'">
+			<span class="tag is-success"><a href="vote.php?vote=2&id='.$row["id"].'&sort='.$sort.'">
 				<span class="icon"><i class="fas fa-arrow-up"></i></span></a>
 			</span>
 			<span class="tag is-dark">
 				'.$row["votes"].'
 			</span>
-			<span class="tag is-danger"><a href="vote.php?vote=1&id='.$row["id"].'">
+			<span class="tag is-danger"><a href="vote.php?vote=1&id='.$row["id"].'&sort='.$sort.'">
 				<span class="icon"><i class="fas fa-arrow-down"></i></span></a>
 			</span>
 			<span class="tag is-link">
@@ -109,10 +108,13 @@ mysqli_close($conn);
 // and now we can stop recording time.
 $endtime = microtime(true);
 
+echo'<div class="tags"><span class="tag is-danger"><a class="has-text-white" href="addfeed.php">Add Feed<a></span></div>';
+
 echo'<div class="tags has-addons"><span class="tag is-dark">Generated in</span><span class="tag is-info">';
 // Spit out how long it took
 printf(" %f seconds", $endtime - $starttime );
 echo'</span></div>';
+
 echo'</div></section>';
 
 pubfooter(); // Load the footer

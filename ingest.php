@@ -63,7 +63,7 @@ foreach ($rss->item as $item) {
 	
 	
 	// Send it to the database! Ignore any duplicate ID's. 
-	$sql = "INSERT IGNORE INTO feeds (id, author, title, url, submit, votes) VALUES ('$id', '$author', '$title', '$url', FROM_UNIXTIME('$submit'), '')";
+	$sql = "INSERT IGNORE INTO feeds (id, author, title, url, submit, votes, cid) VALUES ('$id', '$author', '$title', '$url', FROM_UNIXTIME('$submit'), '', '')";
 	
 	if (mysqli_execute_query($conn, $sql,)) {
 	  echo "New record created successfully";
