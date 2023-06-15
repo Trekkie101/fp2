@@ -4,12 +4,7 @@
 $starttime = microtime(true); 
 
 
-// This is a feed parser.
-require_once 'ext/Feed.php';
 require_once 'config.php';
-
-
-
 
 
 // Create connection
@@ -20,65 +15,25 @@ if (!$conn) {
 }
 
 
-
-
-// Set the URL to load
-$rss = Feed::loadRss('http://www.elkarte.net/community/index.php?action=.xml;sa=news;limit=25;type=rss2');
-
 // We might have foreign entities, so force a character set.
 mysqli_set_charset($conn, "utf8mb4");
 
 
 
-// This is effectively our 'author' of the content	
-$author = mysqli_real_escape_string($conn, $rss->title);
+$sql = "SELECT * FROM feeds ORDER BY submit DESC";
 
+$result = mysqli_execute_query($conn, $sql);
 
-// count the items returned
-$c = 0;
-
-foreach ($rss->item as $item) {
-
-	$c++;
-	
-	$title = mysqli_real_escape_string($conn, $item->title);	
-	echo 'Title: ', $item->title;
-	
-	$url = mysqli_real_escape_string($conn, $item->url);
-	echo ' - ', $item->url;
-	
-	
-	echo ' - ';
-	
-	$id = sha1($item->title);
-	echo sha1($item->title);
-	
-	echo ' - ';
-
-	
-	$submit = mysqli_real_escape_string($conn, $item->timestamp);
-	echo $item->timestamp;
-	echo '<br />';
-	
-	
-	
-	// Send it to the database! Ignore any duplicate ID's. 
-	$sql = "INSERT IGNORE INTO feeds (id, author, title, url, submit) VALUES ('$id', '$author', '$title', '$url', FROM_UNIXTIME('$submit'))";
-	
-	if (mysqli_execute_query($conn, $sql,)) {
-	  echo "New record created successfully";
-	} else {
-	  echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-	}
-	
-	
+if (mysqli_num_rows($result) > 0) {
+  // output data of each row
+  while($row = mysqli_fetch_assoc($result)) {
+	echo  '<a href='.$row["url"].'>' . $row["title"]. "</a> by " . $row["author"]. "<br />";
+  }
+} else {
+  echo "0 results";
 }
 
-// Total all the items returned
-print $c;
 
-
-	echo '<br /><br /><br /><br />';
 	
 
 // close down any connections to the database.
