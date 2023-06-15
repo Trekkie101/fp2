@@ -36,11 +36,23 @@ if (mysqli_num_rows($result) > 0) {
 	  
 	  
  
-	echo '<article class="message ';
-	echo colourarray();
-	echo'"><div class="message-body">';
-	echo '<strong><a href='.$row["url"].'>' . $row["title"]. "</a></strong>  ~<em>" . $row["author"]. "</em><br />";
-	echo '</div></article>';
+	echo '<article class="message is-info"><div class="message-body">';
+	echo'<div class="tags has-addons">
+			<span class="tag is-success">
+				<span class="icon"><i class="fas fa-arrow-up"></i></span>
+			</span>
+			<span class="tag is-dark">
+				100
+			</span>
+			<span class="tag is-danger">
+				<span class="icon"><i class="fas fa-arrow-down"></i></span>
+			</span>
+			<span class="tag is-link">
+			<em>' . $row["author"]. '</em>
+			</span>
+		</div>';
+	echo '<h2 class="title is-2"><a href="'.$row["url"].'">' . $row["title"]. '</a></h2>';
+	echo '</div></article></p>';
   }
 } else {
   echo "0 results";

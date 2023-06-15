@@ -30,11 +30,5 @@ echo'
 	
 }
 
-function colourarray(){
-	
-	$colourload = array("is-dark", "is-primary", "is-link", "is-info", "is-success", "is-warning", "is-danger");
-	$rndcol = array_rand($colourload,1);
-	echo $colourload[$rndcol];
-}
 
 ?>
