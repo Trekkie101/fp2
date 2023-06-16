@@ -44,8 +44,6 @@ mysqli_execute_query($conn, $insert);
 $crawlerid = mysqli_insert_id($conn);
 
 
-print 'HERE';
-print $crawlerid;
 
 ingest($url,$crawlerid);
 

@@ -2,9 +2,7 @@
 
 function pubheader(){
 
-echo'
-
-<!DOCTYPE html>
+echo'<!DOCTYPE html>
 <html>
   <head>
 	<meta charset="utf-8">
@@ -65,8 +63,14 @@ function ingest($urlrunner, $cid){
 	
 	// This is a feed parser.
 	include_once 'ext/Feed.php';
+	
+	// This is the database info.
 	include 'config.php';
 	
+	// Set the day and log file for the logs.
+	$today = date("Ymd"); 
+	$file = 'log/'.$today.'.txt';
+
 	
 	
 	// Create connection
@@ -90,6 +94,11 @@ function ingest($urlrunner, $cid){
 	$author = mysqli_real_escape_string($conn, $rss->title);
 	
 	
+	// Log the author 
+	file_put_contents($file, $author, FILE_APPEND); 
+	file_put_contents($file, ' => ', FILE_APPEND);
+
+	
 	// count the items returned
 	$c = 0;
 	
@@ -97,7 +106,8 @@ function ingest($urlrunner, $cid){
 	
 		$c++;
 		
-		$title = mysqli_real_escape_string($conn, $item->title);	
+		$title = mysqli_real_escape_string($conn, $item->title);
+			
 		
 		$url = mysqli_real_escape_string($conn, $item->url);		
 				
@@ -110,16 +120,16 @@ function ingest($urlrunner, $cid){
 		$sql = "INSERT IGNORE INTO feeds (id, author, title, url, submit, votes, cid) VALUES ('$id', '$author', '$title', '$url', FROM_UNIXTIME('$submit'), '', '$cid')";
 		
 		if (mysqli_execute_query($conn, $sql,)) {
-		  echo "New record created successfully";
-		} else {
-		  echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+		} else { 
+			file_put_contents($file, ' !!!MYSQL ERROR ON INGEST!!! ', FILE_APPEND);
 		}
 		
 		
 	}
 	
 	// Total all the items returned
-	print $c;
+	file_put_contents($file, $c, FILE_APPEND); 
+	file_put_contents($file, " records Added in ", FILE_APPEND);
 			
 	
 	// close down any connections to the database.
@@ -130,7 +140,11 @@ function ingest($urlrunner, $cid){
 	$endtime = microtime(true);
 	
 	// Spit out how long it took
-	printf("Load time: %f seconds", $endtime - $starttime );
+	$seconds = $endtime - $starttime;
+	file_put_contents($file, $seconds, FILE_APPEND);
+	file_put_contents($file, "\n", FILE_APPEND);
+
+	
 	
 	
 }
