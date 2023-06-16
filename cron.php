@@ -20,5 +20,4 @@ $cid = '99';
 
 ingest($url, $cid);
 
-
 ?>
