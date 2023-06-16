@@ -2,3 +2,4 @@ Logs will be written to this directory
 
 1. Ingest Logs
 2. Worker Cron Logs
+3. PHP Errors

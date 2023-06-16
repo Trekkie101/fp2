@@ -59,7 +59,7 @@ switch ($sort) {
 		$sql = "SELECT * FROM feeds ORDER BY votes DESC LIMIT 500"; // Default
 		break;
 	case 9:
-		$sql = "SELECT * FROM feeds WHERE submit BETWEEN CURRENT_DATE-1 AND CURRENT_DATE+1 ORDER BY submit DESC LIMIT 500"; // Default
+		$sql = "SELECT * FROM feeds ORDER BY submit DESC LIMIT 500"; // Default
 		break;
 }
 
